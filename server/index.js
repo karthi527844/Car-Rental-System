@@ -19,16 +19,14 @@ app.use(bodyParser.json());
 
 
 const authRoutes = require("./routes/authRoutes");
-const bookingRoutes = require("./routes/bookingRoutes");
-const carRoutes = require("./routes/carRoutes");
+
 
 app.get("/", (req, res) => {
   res.send("server is working....");
 });
 
 app.use("/auth", authRoutes);
-app.use("/cars", bookingRoutes);
-app.use("/bookings", carRoutes);
+
 
 const PORT = 8000;
 app.listen(PORT, () => {

@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   name: String,
   email: { type: String, unique: true },
   password: String,
-  role: { type: String, default: "customer" },
+  role: { type: String, enum: ['customer', 'admin'], default: "customer" },
 });
 
 userSchema.pre("save", async function (next) {
@@ -14,5 +14,9 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
+userSchema.methods.comparePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
 const User = mongoose.model("User", userSchema);
-module.exports =User;
+module.exports = User;
