@@ -58,7 +58,7 @@ function Signup() {
     <div>
       <Layout>
         <div className="container border border-5 border-primary  rounded-5 ">
-          <h1 className="text-center display-4">Sign Up</h1>
+          <h1 className="text-center display-4 mt-3">Sign Up</h1>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="name">Name</label>
