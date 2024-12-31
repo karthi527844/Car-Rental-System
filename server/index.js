@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
+const userRoutes = require("./routes/userRoutes");
+const carRoutes = require("./routes/carRoutes");
+
 const connect = () => {
   try {
     mongoose.connect("mongodb://localhost:27017/Car-rental-system");
@@ -18,14 +21,15 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 
-const authRoutes = require("./routes/authRoutes");
+
 
 
 app.get("/", (req, res) => {
   res.send("server is working....");
 });
 
-app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
+app.use("/cars", carRoutes);
 
 
 const PORT = 8000;

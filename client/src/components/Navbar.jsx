@@ -8,8 +8,8 @@ function Navbar() {
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-success ">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-            X Hotel
+          <Link className="navbar-brand" to="/cars">
+            MyCars
           </Link>
           <button
             className="navbar-toggler"
@@ -30,23 +30,18 @@ function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/rooms">
-                  Rooms
-                </Link>
-              </li>
-              <li className="nav-item">
                 <Link className="nav-link" to="/about">
                   About Us
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/contact">
-                  Contact
+                <Link className="nav-link" to="/login">
+                  Login
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/login">
-                  Login
+                <Link className="nav-link" to="/sign-up">
+                  Sign Up
                 </Link>
               </li>
             </ul>

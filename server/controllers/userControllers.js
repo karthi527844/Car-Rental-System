@@ -1,26 +1,28 @@
-const User = require("../models/user");
+const userModel = require("../models/userSchema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const registerUser = async (req, res) => {
-  const { name, email, password, role } = req.body;
-
+const createUser = async (req, res) => {
   try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ message: "User already exists" });
+    const { name, email, password, confirmPassword, role } = req.body;
 
-    const user = new User({ name, email, password, role });
-    await user.save();
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
+    }
+    console.log(req.body);
 
-    res.status(201).json({ message: "User registered successfully", user });
+    const UserDoc = new userModel({ name, email, password, role });
+    await UserDoc.save();
+    res.status(200).json({ message: "User created successfully" });
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    console.log(err);
+    res.status(500).json({ message: "Error creating user!" });
   }
 };
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await userModel.find();
     res.status(200).json(users);
   } catch (err) {
     console.log(err);
@@ -46,4 +48,4 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, getAllUsers };
+module.exports = { createUser, getAllUsers, loginUser };
