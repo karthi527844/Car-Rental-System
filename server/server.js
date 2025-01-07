@@ -2,10 +2,15 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 
 const userRoutes = require("./routes/userRoutes");
 const carRoutes = require("./routes/carRoutes");
+const carBookingRoutes = require("./routes/carBookingRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
+require('dotenv').config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 
 const connect = () => {
   try {
@@ -18,7 +23,7 @@ const connect = () => {
 
 app.use(cors());
 app.use(express.json());
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 
 
@@ -30,6 +35,8 @@ app.get("/", (req, res) => {
 
 app.use("/users", userRoutes);
 app.use("/cars", carRoutes);
+app.use("/bookings", carBookingRoutes);
+app.use("/payment", paymentRoutes);
 
 
 const PORT = 8000;

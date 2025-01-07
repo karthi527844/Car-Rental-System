@@ -4,14 +4,27 @@ import Footer from "./Footer";
 
 function Layout({ children }) {
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+      }}
+    >
       <Navbar />
       {/*<main> {children}</main>*/}
-      <main style={{ height: "80vh", backgroundColor: "orange" }}>
+      <main
+        style={{
+          height: "80vh",
+          flex: 1,
+          backgroundColor: "white",
+          paddingTop: "2rem",
+        }}
+      >
         {" "}
-        {children}
+        <div style={{marginBottom:"1rem"}}>{children}</div>
       </main>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

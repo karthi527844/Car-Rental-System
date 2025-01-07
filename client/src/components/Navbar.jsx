@@ -6,10 +6,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function Navbar() {
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-success ">
+      <nav className="navbar navbar-expand-lg navbar-light  bg-primary ">
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/cars">
-            MyCars
+          <Link className="navbar-brand text-white" to="/cars">
+            Car Rental.
           </Link>
           <button
             className="navbar-toggler"
@@ -30,17 +30,22 @@ function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/about">
+                <Link className="nav-link text-white" to="/MyCars">
+                  Cars
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link text-white" to="/about">
                   About Us
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/login">
+                <Link className="nav-link text-white" to="/login">
                   Login
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/sign-up">
+                <Link className="nav-link text-white" to="/sign-up">
                   Sign Up
                 </Link>
               </li>

@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import axios from "axios";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -10,6 +11,8 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -43,10 +46,12 @@ function Signup() {
       .then((res) => {
         console.log(res);
         alert("User created");
+
+        navigate("/login");
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.message) {
-          alert(err.response.data.message);
+          setMessage(err.response.data.message);
         } else {
           console.log("Error", err);
           alert("Error creating user");
@@ -57,8 +62,8 @@ function Signup() {
   return (
     <div>
       <Layout>
-        <div className="container border border-5 border-primary  rounded-5 ">
-          <h1 className="text-center display-4 mt-3">Sign Up</h1>
+        <div className="container card shadow-lg w-50 border border-5 border-primary  rounded-5 ">
+          <h1 className="text-center  mb-3">Sign Up</h1>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="name">Name</label>
@@ -74,7 +79,7 @@ function Signup() {
                 required
               />
             </div>
-            <div className="form-group">
+            <div className="form-group mt-3">
               <label htmlFor="email">Email</label>
               <input
                 type="text"
@@ -88,7 +93,7 @@ function Signup() {
                 required
               />
             </div>
-            <div className="form-group">
+            <div className="form-group mt-3">
               <label htmlFor="password"> Set Password</label>
               <input
                 type="password"
@@ -102,7 +107,7 @@ function Signup() {
                 required
               />
             </div>
-            <div className="form-group">
+            <div className="form-group mt-3">
               <label htmlFor="confirmPassword">Confirm Password</label>
               <input
                 type="password"
@@ -118,7 +123,7 @@ function Signup() {
             </div>
 
             {message && (
-              <div className="alert alert-primary mt-1 p-2 border rounded-4">
+              <div className="alert alert-danger bg-danger text-white mt-1 p-2">
                 {message}
               </div>
             )}

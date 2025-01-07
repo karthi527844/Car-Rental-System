@@ -9,9 +9,18 @@ const createUser = async (req, res) => {
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Passwords do not match" });
     }
+
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     console.log(req.body);
 
-    const UserDoc = new userModel({ name, email, password, role });
+    const UserDoc = new userModel({ name, email, password: hashedPassword, role });
+    console.log("hash", hashedPassword)
     await UserDoc.save();
     res.status(200).json({ message: "User created successfully" });
   } catch (err) {
@@ -35,9 +44,12 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body;
     const user = await userModel.findOne({ email });
     if (!user) return res.status(400).json({ message: "User not found" });
-    if (user.password !== password)
+
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
       return res
-    .status(400).json({ message: "Invalid password" });
+        .status(401).json({ message: "Incorrect password" });
+    }
 
     res.status(200).json({
       message: "Login successful.",

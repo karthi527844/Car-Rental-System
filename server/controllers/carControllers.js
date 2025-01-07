@@ -15,8 +15,10 @@ const createCar = async (req, res) => {
 
 const getAllCars = async (req, res) => {
   try {
-    const cars = await carModel.find().exec();
-    res.status(200).json(cars);
+    const cars = await carModel.find();
+    console.log(cars)
+    res.status(200).json({ data: cars, message: "All cars retrieved successfully" });
+    // res.status(200).json(cars);
   } catch (err) {
     res.status(500).json({ message: "Error fetching cars" });
   }
