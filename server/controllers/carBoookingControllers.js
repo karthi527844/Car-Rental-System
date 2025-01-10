@@ -1,17 +1,27 @@
 const bookingModel = require("../models/carBookingSchema");
+const mongoose = require("mongoose");
 
 const createBooking = async (req, res) => {
+  console.log("Incoming data", req.body);
+  // const car = await carModel.findById(req.body.car);
+  // if (!car) {
+  //   return res.status(400).json({ message: "Car not found" });
+  // }
+
   try {
-    const { car, user, bookingDate, endDate, status } = req.body;
+    const { car, name, bookingDate, endDate, price, status } = req.body;
     const bookingDoc = new bookingModel({
       car: car,
-      user: user,
+      name: name,
       bookingDate: bookingDate,
       endDate: endDate,
+      price: price,
       status: status
     });
+
+
     await bookingDoc.save();
-    res.status(201).json({ message: "Booking created successfully",bookingDoc });
+    res.status(201).json({ message: "Booking created successfully", bookingDoc });
   } catch (err) {
     console.error("Error creating booking:", err);
     res.status(500).json({ message: "Error creating booking" });
@@ -30,13 +40,20 @@ const getAllBookings = async (req, res) => {
 
 const getBookings = async (req, res) => {
   const id = req.params.id;
-  try {
-    const bookingsDoc = await bookingModel.find({ id });
-    res.json({ bookingModel: bookingsDoc, message: "Bookings fetched successfully" });
-  } catch (err) {
-    console.error("Error fetching bookings:", err);
-    res.status(500).json({ message: "Error fetching bookings" });
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: "Invalid ID format" });
   }
-}
+
+  try {
+    const bookings = await bookingModel.find({ car: id }); // Adjust based on your schema
+    if (!bookings) {
+      return res.status(404).json({ error: "No bookings found" });
+    }
+    res.json(bookings);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error", details: err.message });
+  }
+};
 
 module.exports = { createBooking, getAllBookings, getBookings };

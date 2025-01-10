@@ -24,4 +24,20 @@ const getAllCars = async (req, res) => {
   }
 };
 
-module.exports = { createCar, getAllCars };
+const getCarById = async (req, res) => {
+  const id = req.params.id;
+  try {
+    // Correct query to find by the car's _id field
+    const carDoc = await carModel.findById(id); // findById uses _id by default
+    if (!carDoc) {
+      return res.status(404).json({ message: "Car not found" });
+    }
+    res.json({ carModel: carDoc, message: "Car fetched successfully" });
+  } catch (err) {
+    console.error("Error fetching car:", err);
+    res.status(500).json({ message: "Error fetching car" });
+  }
+}
+
+
+module.exports = { createCar, getAllCars, getCarById };

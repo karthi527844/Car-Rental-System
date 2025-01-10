@@ -49,9 +49,25 @@ function MyCars() {
                       Price Per Day: {car.pricePerDay}
                     </p>
                     <p className="card-text">
-                      Availability: {car.availability}
+                      Availability:
+                      <span
+                        className={`px-3 py-1 rounded border ${
+                          car.availability.toLowerCase() === "yes"
+                            ? "text-white border-success bg-success"
+                            : "text-white border-danger bg-danger"
+                        }`}
+                      >
+                        {car.availability}
+                      </span>
                     </p>
-                    <Link to={`/cars/${car._id}`} state={{ carName: car.make }}>
+                    <Link
+                      to={`/bookings/${car._id}`}
+                      state={{
+                        carName: car.make,
+                        pricePerDay: car.pricePerDay,
+                        carId: car._id,
+                      }}
+                    >
                       <button className="btn btn-primary w-100">
                         Book now
                       </button>

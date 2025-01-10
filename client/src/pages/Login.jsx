@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState(""); 
   const [message, setMessage] = useState("");
 
   const Navigate = useNavigate();
@@ -23,8 +23,17 @@ function Login() {
       .post("http://localhost:8000/users/login-user", formObj)
       .then((res) => {
         console.log(res);
-        alert("Login Success");
-        Navigate("/home");
+
+        const token = res.data.token;
+        console.log("Token: ", token);
+        if (token) {
+          localStorage.setItem("token", token);
+          // alert("Login Success");
+          Navigate("/home");
+          setTimeout(() => {
+            Navigate("/home");
+          }, 1000);
+        }
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.message) {

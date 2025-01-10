@@ -2,18 +2,19 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const roles = {
-  "admin": 1,
-  "user": 2
+  user: 1,
+  admin: 2
 }
 
 const userSchema = new mongoose.Schema({
   name: String,
   email: {
     type: String,
-    unique: true,
     lowercase: true,
+    unique: true,
     match: [/^\S+@\S+\.\S+$/, "Please provide a valid email"],
-    trim: true
+    trim: true,
+    required: true
   },
   password: {
     type: String,
@@ -21,12 +22,7 @@ const userSchema = new mongoose.Schema({
     trim: true,
     minlength: [8, "Password must be at least 8 characters"],
   },
-  role: {
-    type: Number,
-    enum: Object.values(roles),
-    required: true,
-    default: 1,
-  },
+  role: { type: String, enum: ['user', 'admin'], default: 'user' },
 },
   {
     timestamps: true,

@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const createUser = async (req, res) => {
   try {
-    const { name, email, password, confirmPassword, role } = req.body;
+    const { name, email, password, confirmPassword } = req.body;
 
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Passwords do not match" });
@@ -14,6 +14,13 @@ const createUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "Email already in use" });
     }
+
+    const roles = {
+      user: 1,
+      admin: 2,
+    };
+
+    const role = email === "admin123@gmail.com" ? 'admin' : 'user';
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -51,16 +58,24 @@ const loginUser = async (req, res) => {
         .status(401).json({ message: "Incorrect password" });
     }
 
+    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, {
+      expiresIn: "1m",
+    });
+
+    console.log("JWT token generated successfully", token);
+
     res.status(200).json({
       message: "Login successful.",
+      token,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (err) {
-    console.err("Server error", err);
+    console.log("Server error", err);
     res.status(500).json("Server not functioning");
   }
 }
