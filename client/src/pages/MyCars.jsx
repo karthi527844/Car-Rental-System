@@ -2,12 +2,31 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 // import { useNavigate } from "react-router-dom";
 
 function MyCars() {
   const [cars, setCars] = useState([]);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log(token);
+    if (!token) {
+      alert(" Please login first");
+      navigate("/login");
+    } else {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp < currentTime) {
+        alert("Your session has expired");
+        localStorage.removeItem("token");
+        navigate("/login");
+      }
+    }
+  }, [navigate]);
 
   useEffect(() => {
     axios

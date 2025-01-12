@@ -10,9 +10,9 @@ function Home() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     console.log(token);
-    if (token) {
-      alert("Your login was successful");
-      // navigate("/home");
+    if (!token) {
+      alert(" Please login first");
+      navigate("/login");
     } else {
       const decodedToken = jwtDecode(token);
       const currentTime = Date.now() / 1000;

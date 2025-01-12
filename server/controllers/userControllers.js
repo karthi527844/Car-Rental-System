@@ -59,7 +59,7 @@ const loginUser = async (req, res) => {
     }
 
     const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, {
-      expiresIn: "1m",
+      expiresIn: "5m",
     });
 
     console.log("JWT token generated successfully", token);
@@ -80,7 +80,25 @@ const loginUser = async (req, res) => {
   }
 }
 
+const tokenBlacklist = new Set();
+
+const logoutUser =  (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (token){
+    tokenBlacklist.add(token);
+    return res.status(200).json({ message: "Logged out successfully" });
+    } else {
+      return res.status(401).json({ message: "Unauthorized" });
+      }
+  }
+
+  const validateToken = (req, res, next) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (tokenBlacklist.has(token)){
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    next();
+    }
 
 
-
-module.exports = { createUser, getAllUsers, loginUser };
+module.exports = { createUser, getAllUsers, loginUser, logoutUser, validateToken };

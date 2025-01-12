@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../components/Layout";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 function About() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log(token);
+    if (!token) {
+      alert(" Please login first");
+      navigate("/login");
+    } else {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp < currentTime) {
+        alert("Your session has expired");
+        localStorage.removeItem("token");
+        navigate("/login");
+      }
+    }
+  }, [navigate]);
   return (
     <Layout>
       <h1 className="text-black text-center py-4">About Us</h1>

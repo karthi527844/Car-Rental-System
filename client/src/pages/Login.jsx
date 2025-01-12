@@ -28,8 +28,8 @@ function Login() {
         console.log("Token: ", token);
         if (token) {
           localStorage.setItem("token", token);
-          // alert("Login Success");
-          Navigate("/home");
+          alert("Login Success");
+          // Navigate("/home");
           setTimeout(() => {
             Navigate("/home");
           }, 1000);

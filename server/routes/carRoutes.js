@@ -2,7 +2,9 @@ const express = require('express');
 const { createCar, getAllCars, getCarById } = require('../controllers/carControllers');
 const router = express.Router();
 
-router.post("/add-car", createCar);
+const authenticateToken = require("../middleware/userMiddleware");
+
+router.post("/add-car", authenticateToken, createCar);
 
 router.get("/get-all-cars", getAllCars);
 

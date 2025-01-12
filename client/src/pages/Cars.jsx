@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 function Cars() {
   const [make, setMake] = useState("");
@@ -8,14 +10,45 @@ function Cars() {
   const [year, setYear] = useState("");
   const [pricePerDay, setPricePerDay] = useState("");
   const [availability, setAvailability] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log(token);
+    if (!token) {
+      alert(" You must be logged in to view this page");
+      navigate("/login");
+    } else {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp < currentTime) {
+        alert("Your session has expired");
+        localStorage.removeItem("token");
+        navigate("/login");
+      }
+    }
+  }, [navigate]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const formObj = { make, model, year, pricePerDay, availability };
     console.log(formObj);
 
+    const token = localStorage.getItem("token"); // Retrieve token from local storage
+
+    if (!token) {
+      alert("Unauthorized access. Please login.");
+      Navigate("/login");
+      return;
+    }
+
     axios
-      .post("http://localhost:8000/cars/add-car", formObj)
+      .post("http://localhost:8000/cars/add-car", formObj, {
+        headers: {
+          Authorization: `Bearer${token}`,
+        },
+      })
+
       .then((res) => {
         console.log(res.data);
         alert("Car added successfully");
