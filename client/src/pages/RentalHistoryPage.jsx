@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../utils/axiosInstance";
 
 function RentalHistoryPage() {
   const [history, setHistory] = useState([]);
@@ -27,8 +28,8 @@ function RentalHistoryPage() {
 
   useEffect(() => {
     // Assuming you have an API endpoint to fetch the user's bookings
-    axios
-      .get("http://localhost:8000/bookings/get-bookings") // Modify with proper user filtering if needed
+    axiosInstance
+      .get("/bookings/get-bookings") // Modify with proper user filtering if needed
       .then((res) => {
         console.log(res.data);
         setHistory(res.data.history || []); // Adjust based on API response

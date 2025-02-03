@@ -4,6 +4,7 @@ import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import axiosInstance from "../utils/axiosInstance";
 
 // import { useNavigate } from "react-router-dom";
 
@@ -29,8 +30,8 @@ function MyCars() {
   }, [navigate]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/cars/get-all-cars")
+    axiosInstance
+      .get("/cars/get-all-cars")
       .then((res) => {
         console.log(res.data);
         setCars(res.data.data);

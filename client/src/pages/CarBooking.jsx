@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import axiosInstance from "../utils/axiosInstance";
 
 function CarBooking() {
   const location = useLocation();
@@ -49,8 +50,8 @@ function CarBooking() {
       carId: carId, // Send car ID to backend
     };
 
-    axios
-      .post("http://localhost:8000/bookings/create-bookings", formObj)
+    axiosInstance
+      .post("/bookings/create-bookings", formObj)
       .then((res) => {
         console.log(res.data);
         alert("Booked Successfully");
@@ -63,7 +64,10 @@ function CarBooking() {
 
   return (
     <Layout>
-      <div className="container card shadow-lg w-75 p-4 border border-4 border-primary rounded-5">
+      <div
+        className="container card-red shadow-lg w-75 p-4 rounded-5"
+        style={{ border: "8px solid #b2ebf2" }}
+      >
         <h1 className="fw-light text-center mb-3 p-3">Booking of {carName}</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group mb-3">

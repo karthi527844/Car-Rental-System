@@ -9,7 +9,7 @@ function Navbar() {
   const token = localStorage.getItem("token");
 
   const handleLogout = () => {
-    fetch("http://localhost:8000/users/logout-user", {
+    fetch("http://localhost:80/users/logout-user", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -31,7 +31,7 @@ function Navbar() {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-primary">
+      <nav className="navbar navbar-expand-lg navbar-light">
         <div className="container-fluid ">
           <Link className="navbar-brand " to="/cars">
             CleanDrive Rentals
@@ -71,7 +71,9 @@ function Navbar() {
               </li>
               {token ? (
                 <li className="nav-item">
-                  <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+                  <button className="btn btn-danger" onClick={handleLogout}>
+                    Logout
+                  </button>
                 </li>
               ) : (
                 <>

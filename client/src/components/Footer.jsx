@@ -1,10 +1,11 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "../styles/Footer.css"
 
-function Footer() {
+function Footer() { 
   return (
-    <footer className="bg-light py-4">
+    <footer className="footer  py-4">
       <div className="container">
         <div className="row justify-content-between align-items-center">
           {/* Left Section: Copyright */}

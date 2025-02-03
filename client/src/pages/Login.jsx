@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import Layout from "../components/Layout";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import axiosInstance from "../utils/axiosInstance";
 
 function Login() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(""); 
+  const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
   const Navigate = useNavigate();
@@ -19,8 +20,8 @@ function Login() {
     };
     console.log(formObj);
 
-    axios
-      .post("http://localhost:8000/users/login-user", formObj)
+    axiosInstance
+      .post("/users/login-user", formObj)
       .then((res) => {
         console.log(res);
 
@@ -29,7 +30,6 @@ function Login() {
         if (token) {
           localStorage.setItem("token", token);
           alert("Login Success");
-          // Navigate("/home");
           setTimeout(() => {
             Navigate("/home");
           }, 1000);
@@ -47,7 +47,10 @@ function Login() {
   return (
     <div>
       <Layout>
-        <div className="container card shadow-lg w-50 border border-5 border-primary  rounded-5 ">
+        <div
+          className="container card-red shadow-lg w-50   rounded-5 "
+          style={{ border: "8px solid #b2ebf2" }}
+        >
           <h1 className="text-center display-4 mb-3 p-3">Login</h1>
           <form onSubmit={handleSubmit}>
             <div className="form-group p-3">
@@ -86,7 +89,11 @@ function Login() {
             <div className="form-group d-flex justify-content-center mt-2">
               <button
                 type="submit"
-                className="btn btn-primary p-3 m-3 rounded-2"
+                className="p-3 m-3 rounded-2"
+                style={{
+                  backgroundColor: " #b2ebf2",
+                  border: "2px solid #b2ebf2",
+                }}
               >
                 Login
               </button>

@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import axiosInstance from "../utils/axiosInstance";
 
 function Cars() {
   const [make, setMake] = useState("");
@@ -16,7 +17,7 @@ function Cars() {
     const token = localStorage.getItem("token");
     console.log(token);
     if (!token) {
-      alert(" You must be logged in to view this page");
+      alert("You must be logged in to view this page");
       navigate("/login");
     } else {
       const decodedToken = jwtDecode(token);
@@ -42,8 +43,8 @@ function Cars() {
       return;
     }
 
-    axios
-      .post("http://localhost:8000/cars/add-car", formObj, {
+    axiosInstance
+      .post("/cars/add-car", formObj, {
         headers: {
           Authorization: `Bearer${token}`,
         },

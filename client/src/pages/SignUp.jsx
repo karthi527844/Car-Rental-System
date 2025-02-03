@@ -4,6 +4,7 @@ import axios from "axios";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../utils/axiosInstance";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -41,8 +42,8 @@ function Signup() {
       return;
     }
 
-    axios
-      .post("http://localhost:8000/users/register-user", formObj)
+    axiosInstance
+      .post("/users/register-user", formObj)
       .then((res) => {
         console.log(res);
         alert("User created");
@@ -62,7 +63,12 @@ function Signup() {
   return (
     <div>
       <Layout>
-        <div className="container card shadow-lg w-50 border border-5 border-primary  rounded-5 ">
+        <div
+          className="container card shadow-lg w-50 rounded-5 "
+          style={{
+            border: "8px solid #b2ebf2",
+          }}
+        >
           <h1 className="text-center  mb-3">Sign Up</h1>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
@@ -130,7 +136,11 @@ function Signup() {
             <div className="form-group d-flex justify-content-center">
               <input
                 type="submit"
-                className="btn btn-primary p-3 m-3 rounded-4"
+                className="p-3 m-3 rounded-4"
+                style={{
+                  backgroundColor: " #b2ebf2",
+                  border: "2px solid #b2ebf2",
+                }}
               />
             </div>
           </form>

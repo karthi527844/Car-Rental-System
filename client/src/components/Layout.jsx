@@ -17,7 +17,7 @@ function Layout({ children }) {
         style={{
           height: "80vh",
           flex: 1,
-          backgroundColor: "white",
+          backgroundColor: "#e0f7fa",
           paddingTop: "2rem",
         }}
       >

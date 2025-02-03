@@ -38,8 +38,8 @@ app.use("/bookings", carBookingRoutes);
 
 
 
-const PORT = 8000;
+const PORT = 80;
 app.listen(PORT, () => {
-  console.log("Server is listening on port", 8000);
+  console.log("Server is listening on port", 80);
 });
 connect();
